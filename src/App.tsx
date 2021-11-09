@@ -2,7 +2,7 @@ import "./App.css";
 import { useMemo } from "react";
 
 import Home from "./component/Home";
-
+import { StylesProvider } from "@material-ui/core/styles";
 import * as anchor from "@project-serum/anchor";
 import { clusterApiUrl } from "@solana/web3.js";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
@@ -55,6 +55,11 @@ const theme = createTheme({
 	palette: {
 		type: "dark",
 	},
+	// .MuiPaper-root {
+	// 	color: #fff;
+	// 	transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+	// 	background-color: #424242;
+	// }
 	overrides: {
 		MuiButtonBase: {
 			root: {
@@ -65,6 +70,9 @@ const theme = createTheme({
 			root: {
 				textTransform: undefined,
 				padding: "12px 16px",
+				borderRadius: "20px",
+				margin: "10px",
+				background: "#424242",
 			},
 			startIcon: {
 				marginRight: 8,
@@ -91,45 +99,49 @@ const App = () => {
 	);
 
 	return (
-		<ThemeProvider theme={theme}>
-			<ConnectionProvider endpoint={endpoint}>
-				<WalletProvider
-					wallets={wallets}
-					autoConnect={true}
-				>
-					<WalletDialogProvider>
-						<div className="app">
-							<Home
-								candyMachineId={
-									candyMachineId
-								}
-								config={config}
-								connection={
-									connection
-								}
-								startDate={
-									startDateSeed
-								}
-								treasury={
-									treasury
-								}
-								txTimeout={
-									txTimeout
-								}
-							/>
+		<StylesProvider injectFirst>
+			<ThemeProvider theme={theme}>
+				<ConnectionProvider endpoint={endpoint}>
+					<WalletProvider
+						wallets={wallets}
+						autoConnect={true}
+					>
+						<WalletDialogProvider>
+							<div className="app">
+								<Home
+									candyMachineId={
+										candyMachineId
+									}
+									config={
+										config
+									}
+									connection={
+										connection
+									}
+									startDate={
+										startDateSeed
+									}
+									treasury={
+										treasury
+									}
+									txTimeout={
+										txTimeout
+									}
+								/>
 
-							<Intro />
-							<Charity />
-							<Showcase />
-							<Roadmap />
-							<FAQ />
-							<Team />
-							<Footer />
-						</div>
-					</WalletDialogProvider>
-				</WalletProvider>
-			</ConnectionProvider>
-		</ThemeProvider>
+								<Intro />
+								<Charity />
+								<Showcase />
+								<Roadmap />
+								<FAQ />
+								<Team />
+								<Footer />
+							</div>
+						</WalletDialogProvider>
+					</WalletProvider>
+				</ConnectionProvider>
+			</ThemeProvider>
+		</StylesProvider>
 	);
 };
 
